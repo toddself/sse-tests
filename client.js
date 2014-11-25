@@ -14,18 +14,19 @@
     interval = setInterval(function(){
       var msg = 'yo this works '+i;
       log('sending', msg);
-      socket.emit('message', {clientId: clientId, data: msg});
+      socket.emit('message', {clientId: clientId, data: {msg: msg, time: (new Date()).getTime()}});
       ++i;
     }, 1000);
   }
 
-  function log(type, msg){
+  function log(){
+    var args = Array.prototype.slice.call(arguments);
     var row = document.createElement('div');
     var strong = document.createElement('strong');
     var span = document.createElement('span');
-    strong.innerHTML = type;
-    row.classList.add(type);
-    span.innerHTML = ' '+msg;
+    strong.innerHTML = args[0];
+    row.classList.add(args[0]);
+    span.innerHTML = ' '+args.slice(1).join(' ');
     row.appendChild(strong);
     row.appendChild(span);
     logArea.appendChild(row);
@@ -53,8 +54,13 @@
     });
 
     evtSrc.addEventListener('message', function(msg){
-      var data = msg.data;
-      log('received', data);
+      var data = JSON.parse(msg.data);
+      var msg = data.msg;
+      var then = (new Date(data.time)).getTime();
+      var now = (new Date()).getTime();
+      var diff = now - then;
+
+      log('received', msg, diff+'ms');
     });
 
     if(socket && socket.disconnected){

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<head lang="en">
+<title>test</title>
+<meta charset="utf8">
+<style>
+  .js-console {
+    width: 800px;
+    height: 800px;
+    overflow-y: scroll;
+    overflow-x: none;
+    font-family: monospace;
+  }
+
+  div.sending {
+    background-color: green;
+  }
+
+  div.received {
+    background-color: grey;
+  }
+</style>
+<script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+<div style="width: 500px; height: 500px; border: 1px solid black;" class="js-console"></div>
+<button class="js-start">start</button>
+<button class="js-stop">stop</button>
+<script src="/client.js"></script>
+</body>

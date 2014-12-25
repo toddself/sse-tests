@@ -23,9 +23,9 @@ function sendEvent(client, namespace, data){
   console.log('emitting event', namespace, 'to client', client);
 
   data = typeof data === 'string' ? data : JSON.stringify(data);
-  var namespace = 'event: '+namespace;
+  namespace = 'event: '+namespace;
   var info = 'data: '+data;
-  var msg = [namespace, info, '\n'].join('\n')
+  var msg = [namespace, info, '\n'].join('\n');
   res.write(msg);
 }
 
@@ -41,12 +41,12 @@ var app = http.createServer(function(req, res){
 
     if(!clients[client]){
       console.log('setting client into object');
-      headers['set-cookie'] = 'clientId='+client
+      headers['set-cookie'] = 'clientId='+client;
       clients[client] = res;
     }
 
     res.writeHead(200, headers);
-    res.write('retry: 1000\n');
+    res.write('retry: 50\n');
     res.on('close', function(){
       console.log('client disconnected from see', client);
     });

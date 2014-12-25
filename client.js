@@ -50,12 +50,11 @@
       var data = JSON.parse(msg.data);
       clientId = data.id;
       console.log('handshake completed, client id', clientId);
-      startSocketSend();
     });
 
     evtSrc.addEventListener('message', function(msg){
       var data = JSON.parse(msg.data);
-      var msg = data.msg;
+      msg = data.msg;
       var then = (new Date(data.time)).getTime();
       var now = (new Date()).getTime();
       var diff = now - then;
@@ -77,4 +76,11 @@
     socket.close();
     interval = undefined;
   });
+
+  document.querySelector('.js-send').addEventListener('click', function(evt){
+    var msg = 'yo this works';
+    log('sending', msg);
+    socket.emit('message', {clientId: clientId, data: {msg: msg, time: (new Date()).getTime()}});
+  });
+
 })(window, document);
